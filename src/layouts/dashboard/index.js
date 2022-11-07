@@ -35,8 +35,27 @@ import reportsLineChartData from "layouts/dashboard/data/reportsLineChartData";
 import Projects from "layouts/dashboard/components/Projects";
 import OrdersOverview from "layouts/dashboard/components/OrdersOverview";
 
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+
 function Dashboard() {
   const { sales, tasks } = reportsLineChartData;
+  const [currentTime, setCurrentTime] = useState(0);
+
+  useEffect(() => {
+    console.log(123456789);
+    axios
+      .get("http://localhost:5000/time")
+      .then((response) => {
+        console.log(response);
+        setCurrentTime(response.data.time);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .then(() => {});
+    console.log("end");
+  }, []);
 
   return (
     <DashboardLayout>
@@ -48,8 +67,8 @@ function Dashboard() {
               <ComplexStatisticsCard
                 color="dark"
                 icon="weekend"
-                title="Bookings"
-                count={281}
+                title="Time"
+                count={currentTime}
                 percentage={{
                   color: "success",
                   amount: "+55%",
